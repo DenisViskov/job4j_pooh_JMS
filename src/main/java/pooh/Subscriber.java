@@ -1,5 +1,7 @@
 package pooh;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -11,24 +13,26 @@ import java.net.Socket;
  */
 public class Subscriber implements Sender, Runnable {
 
-    private Socket socket;
-    private Store store;
+    private final Socket socket;
+    private final Store store;
 
     public Subscriber(Socket socket, Store store) {
         this.socket = socket;
         this.store = store;
     }
 
-    public Subscriber() {
-    }
-
     @Override
     public void doJobs() {
-
+        String content = (String) store.get();
+        try (BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream())) {
+            out.write(content.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void run() {
-
+        doJobs();
     }
 }

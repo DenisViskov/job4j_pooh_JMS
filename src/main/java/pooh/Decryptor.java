@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.StringJoiner;
 
 /**
  * Класс реализует ...
@@ -13,45 +12,45 @@ import java.util.StringJoiner;
  * @version 1.0
  * @since 12.08.2020
  */
-public class Decryptor implements Decryption<Sender> {
+public class Decryptor implements Decryption {
 
     private final Socket socket;
-    private final String inSocket;
     private final String content;
+    private final String json;
     private final String mode;
-    private final Sender sender;
+    private final String sender;
 
     public Decryptor(Socket socket) {
         this.socket = socket;
-        this.inSocket = decryptContentSocket();
-        this.content = getContent();
+        this.content = decryptContentSocket();
+        this.json = getJson();
         this.mode = getMode();
         this.sender = getSender();
     }
 
     @Override
-    public String getContent() {
-        if (content == null) {
-            String[] splitLine = inSocket.split("/");
+    public String getJson() {
+        if (json == null) {
+            String[] splitLine = content.split("/");
             return splitLine[2];
         }
-        return content;
+        return json;
     }
 
     @Override
     public String getMode() {
         if (mode == null) {
-            String[] splitLine = inSocket.split("/");
+            String[] splitLine = content.split("/");
             return splitLine[1];
         }
         return mode;
     }
 
     @Override
-    public Sender getSender() {
+    public String getSender() {
         if (sender == null) {
-            String[] splitLine = inSocket.split("/");
-            return splitLine[0].equals("POST") ? new Publisher() : new Subscriber();
+            String[] splitLine = content.split("/");
+            return splitLine[0].equals("POST") ? "Publisher" : "Subscriber";
         }
         return sender;
     }
