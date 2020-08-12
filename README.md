@@ -1,0 +1,2 @@
+[![Build Status](https://travis-ci.org/DenisViskov/job4j_pooh_JMS.svg?branch=master)](https://travis-ci.org/DenisViskov/job4j_pooh_JMS)
+[![codecov](https://codecov.io/gh/DenisViskov/job4j_pooh_JMS/branch/master/graph/badge.svg)](https://codecov.io/gh/DenisViskov/job4j_pooh_JMS)
