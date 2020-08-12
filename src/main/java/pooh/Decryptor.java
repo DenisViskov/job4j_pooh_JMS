@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Класс реализует ...
@@ -57,7 +58,7 @@ public class Decryptor implements Decryption {
 
     private String decryptContentSocket() {
         StringBuilder tmp = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
             reader.lines()
                     .forEach(tmp::append);
         } catch (IOException e) {

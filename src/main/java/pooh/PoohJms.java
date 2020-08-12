@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -60,6 +61,9 @@ public class PoohJms implements Service<Socket, ServerSocket> {
         ServerSocket server = new ServerSocket(9000, 0, InetAddress.getLocalHost());
         while (!server.isClosed()) {
             Socket socket = (Socket) poo.getRequest(server);
+            socket.getOutputStream().write(("GET /ip HTTP/1.0\n"
+                    .getBytes(StandardCharsets.US_ASCII)));
+            socket.getOutputStream().flush();
             Decryption decryption = new Decryptor(socket);
             poo.execute(decryption, socket);
         }
