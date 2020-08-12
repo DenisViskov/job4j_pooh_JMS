@@ -11,7 +11,7 @@ import java.net.Socket;
  * @version 1.0
  * @since 12.08.2020
  */
-public class Subscriber implements Sender, Runnable {
+public class Subscriber implements Sender {
 
     private final Socket socket;
     private final Store store;

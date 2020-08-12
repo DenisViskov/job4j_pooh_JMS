@@ -10,4 +10,5 @@ package pooh;
 public interface Store<T> {
     T get();
     void add(T some);
+    Store copyStore();
 }

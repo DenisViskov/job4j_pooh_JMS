@@ -7,7 +7,7 @@ package pooh;
  * @version 1.0
  * @since 12.08.2020
  */
-public class Publisher implements Sender, Runnable {
+public class Publisher implements Sender {
 
     private final Store store;
     private final String json;

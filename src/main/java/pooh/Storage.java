@@ -35,4 +35,10 @@ public class Storage implements Store<String> {
     public void add(String some) {
         store.offer(some);
     }
+
+    @Override
+    public Store copyStore() {
+        Queue<String> queue = new ConcurrentLinkedQueue<>(store);
+        return new Storage(queue);
+    }
 }

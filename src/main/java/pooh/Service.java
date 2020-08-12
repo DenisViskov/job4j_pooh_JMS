@@ -7,6 +7,9 @@ package pooh;
  * @version 1.0
  * @since 12.08.2020
  */
-public interface Sender extends Runnable {
-    void doJobs();
+public interface Service<T, V> {
+
+    T getRequest(V server);
+
+    void execute(Decryption decryption, T from);
 }
