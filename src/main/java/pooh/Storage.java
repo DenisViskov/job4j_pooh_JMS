@@ -7,7 +7,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Класс реализует ...
+ * Class of storage
  *
  * @author Денис Висков
  * @version 1.0
@@ -16,6 +16,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @ThreadSafe
 public class Storage implements Store<String> {
 
+    /**
+     * Store
+     */
     private final Queue<String> store;
 
     public Storage(Queue<String> store) {
@@ -26,16 +29,31 @@ public class Storage implements Store<String> {
         this.store = new ConcurrentLinkedQueue<>();
     }
 
+    /**
+     * Method return content from queue
+     *
+     * @return string
+     */
     @Override
     public String get() {
         return store.poll();
     }
 
+    /**
+     * Method put in queue given content
+     *
+     * @param some
+     */
     @Override
     public void add(String some) {
         store.offer(some);
     }
 
+    /**
+     * Method of copy storage
+     *
+     * @return new Store
+     */
     @Override
     public Store copyStore() {
         Queue<String> queue = new ConcurrentLinkedQueue<>(store);

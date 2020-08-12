@@ -1,7 +1,7 @@
 package pooh;
 
 /**
- * Класс реализует ...
+ * Class of publisher
  *
  * @author Денис Висков
  * @version 1.0
@@ -9,7 +9,14 @@ package pooh;
  */
 public class Publisher implements Sender {
 
+    /**
+     * Store
+     */
     private final Store store;
+
+    /**
+     * JSON
+     */
     private final String json;
 
     public Publisher(Store store, String json) {
@@ -17,6 +24,9 @@ public class Publisher implements Sender {
         this.json = json;
     }
 
+    /**
+     * Method execute task
+     */
     @Override
     public void doJobs() {
         store.add(json);

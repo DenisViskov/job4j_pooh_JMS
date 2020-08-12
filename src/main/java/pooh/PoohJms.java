@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Класс реализует ...
+ * Class of poo JMS has main logic
  *
  * @author Денис Висков
  * @version 1.0
@@ -17,16 +17,29 @@ import java.util.concurrent.Executors;
  */
 public class PoohJms implements Service<Socket, ServerSocket> {
 
+    /**
+     * Executor service
+     */
     private final ExecutorService service = Executors
             .newFixedThreadPool(Runtime
                     .getRuntime()
                     .availableProcessors());
+
+    /**
+     * Store
+     */
     private final Store store;
 
     public PoohJms(Store store) {
         this.store = store;
     }
 
+    /**
+     * Method returns socket from client
+     *
+     * @param server
+     * @return socket
+     */
     @Override
     public Socket getRequest(ServerSocket server) {
         Socket socket = null;
@@ -38,13 +51,27 @@ public class PoohJms implements Service<Socket, ServerSocket> {
         return socket;
     }
 
+    /**
+     * Method execute tasks
+     *
+     * @param decryption
+     * @param socket
+     */
     @Override
     public void execute(Decryption decryption, Socket socket) {
         Sender sender = getSenderByMode(decryption, socket);
         service.submit(sender);
     }
 
-    private Sender getSenderByMode(Decryption decryption, Socket socket) {
+    /**
+     * Method returns Sender by given mode from request
+     *
+     * @param decryption
+     * @param socket
+     * @return Sender
+     */
+    @Override
+    public Sender getSenderByMode(Decryption decryption, Socket socket) {
         if (decryption.getMode().equals("queue")
                 && decryption.getSender().equals("Subscriber")) {
             return new Subscriber(socket, store);

@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Класс реализует ...
+ * Class of Decryptor
  *
  * @author Денис Висков
  * @version 1.0
@@ -15,10 +15,29 @@ import java.nio.charset.StandardCharsets;
  */
 public class Decryptor implements Decryption {
 
+    /**
+     * Socket
+     */
     private final Socket socket;
+
+    /**
+     * Content
+     */
     private final String content;
+
+    /**
+     * JSON
+     */
     private final String json;
+
+    /**
+     * Mode
+     */
     private final String mode;
+
+    /**
+     * Who's Sender
+     */
     private final String sender;
 
     public Decryptor(Socket socket) {
@@ -29,6 +48,11 @@ public class Decryptor implements Decryption {
         this.sender = getSender();
     }
 
+    /**
+     * Method check json on null and return him
+     *
+     * @return JSON
+     */
     @Override
     public String getJson() {
         if (json == null) {
@@ -38,6 +62,11 @@ public class Decryptor implements Decryption {
         return json;
     }
 
+    /**
+     * Method check Mode on null and return him
+     *
+     * @return
+     */
     @Override
     public String getMode() {
         if (mode == null) {
@@ -47,6 +76,11 @@ public class Decryptor implements Decryption {
         return mode;
     }
 
+    /**
+     * Method check Sender on null and return him
+     *
+     * @return
+     */
     @Override
     public String getSender() {
         if (sender == null) {
@@ -56,6 +90,11 @@ public class Decryptor implements Decryption {
         return sender;
     }
 
+    /**
+     * Method of decrypt content from socket
+     *
+     * @return content
+     */
     private String decryptContentSocket() {
         StringBuilder tmp = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {

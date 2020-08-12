@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * Класс реализует ...
+ * Class of subscriber
  *
  * @author Денис Висков
  * @version 1.0
@@ -13,7 +13,14 @@ import java.net.Socket;
  */
 public class Subscriber implements Sender {
 
+    /**
+     * Socket
+     */
     private final Socket socket;
+
+    /**
+     * Store
+     */
     private final Store store;
 
     public Subscriber(Socket socket, Store store) {
@@ -21,6 +28,9 @@ public class Subscriber implements Sender {
         this.store = store;
     }
 
+    /**
+     * Method getting content and sending him to client
+     */
     @Override
     public void doJobs() {
         String content = (String) store.get();
