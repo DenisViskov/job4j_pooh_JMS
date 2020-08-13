@@ -24,7 +24,6 @@ public class PoohJms implements Service<Socket, ServerSocket> {
             .newFixedThreadPool(Runtime
                     .getRuntime()
                     .availableProcessors());
-
     /**
      * Store
      */

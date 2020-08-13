@@ -28,4 +28,11 @@ public interface Store<T> {
      * @return
      */
     Store copyStore();
+
+    /**
+     * Return size
+     *
+     * @return size
+     */
+    int size();
 }
