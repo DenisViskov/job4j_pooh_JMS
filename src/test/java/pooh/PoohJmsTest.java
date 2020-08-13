@@ -22,19 +22,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PoohJmsTest {
-    private Queue<String> queue = new ConcurrentLinkedQueue<>(Arrays.asList("1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"));
-    private final PoohJms jms = new PoohJms(new Storage(queue));
+
+    private final Store store = new Storage();
+    private final PoohJms jms = new PoohJms(store);
     private final Decryption decryption = mock(Decryption.class);
     private final Socket socket = mock(Socket.class);
+
+    @Before
+    public void setUp() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            store.add("Hello");
+        }
+    }
 
     @Test
     public void getRequestTest() throws IOException {
@@ -46,10 +45,8 @@ public class PoohJmsTest {
     }
 
     @Test
-    public void whenTopicModeExecuteTest() throws IOException, InterruptedException {
+    public void whenTopicModeExecuteTest() throws InterruptedException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Decryption decryption = mock(Decryption.class);
-        Socket socket = mock(Socket.class);
         Thread first = new Thread(() -> {
             when(decryption.getMode()).thenReturn("TOPIC");
             when(decryption.getSender()).thenReturn("Subscriber");
@@ -74,14 +71,12 @@ public class PoohJmsTest {
         second.start();
         first.join();
         second.join();
-        assertThat(queue.size(), is(10));
+        assertThat(store.size(), is(10));
     }
 
     @Test
-    public void whenQueueModeExecuteTest() throws IOException, InterruptedException {
+    public void whenQueueModeExecuteTest() throws InterruptedException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Decryption decryption = mock(Decryption.class);
-        Socket socket = mock(Socket.class);
         Thread first = new Thread(() -> {
             when(decryption.getMode()).thenReturn("queue");
             when(decryption.getSender()).thenReturn("Subscriber");
@@ -107,6 +102,6 @@ public class PoohJmsTest {
         first.join();
         second.join();
         Thread.sleep(500);
-        assertThat(queue.size(), is(8));
+        assertThat(store.size(), is(8));
     }
 }

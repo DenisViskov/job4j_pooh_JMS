@@ -2,6 +2,7 @@ package pooh;
 
 import net.jcip.annotations.ThreadSafe;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -19,15 +20,7 @@ public class Storage implements Store<String> {
     /**
      * Store
      */
-    private final Queue<String> store;
-
-    public Storage(Queue<String> store) {
-        this.store = store;
-    }
-
-    public Storage() {
-        this.store = new ConcurrentLinkedQueue<>();
-    }
+    private final Queue<String> store = new ConcurrentLinkedQueue<>();
 
     /**
      * Method return content from queue
@@ -56,7 +49,21 @@ public class Storage implements Store<String> {
      */
     @Override
     public Store copyStore() {
-        Queue<String> queue = new ConcurrentLinkedQueue<>(store);
-        return new Storage(queue);
+        Storage newStore = new Storage();
+        Iterator<String> it = store.iterator();
+        while (it.hasNext()) {
+            newStore.add(it.next());
+        }
+        return newStore;
+    }
+
+    /**
+     * Method return size queue
+     *
+     * @return size
+     */
+    @Override
+    public int size() {
+        return store.size();
     }
 }
